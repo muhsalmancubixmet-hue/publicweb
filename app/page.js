@@ -318,73 +318,6 @@ export default function Home() {
   if (API_URL === 'http://localhost:8000') {
     API_URL = 'http://127.0.0.1:8000';
   }
-  useEffect(() => {
-    // Fetch CMS Content
-    fetch(`${API_URL}/api/cms/`)
-      .then(res => res.json())
-      .then(data => {
-        const contentMap = {};
-        if (Array.isArray(data)) {
-          data.forEach(item => {
-            contentMap[item.key] = item.value;
-          });
-        }
-        setCmsContent(contentMap);
-      })
-      .catch(err => console.error('Error fetching CMS content:', err));
-
-    // Fetch LMS Modules
-    fetch(`${API_URL}/api/lms/`)
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setLmsModules(data);
-        }
-      })
-      .catch(err => console.error('Error fetching LMS modules:', err));
-
-    // Fetch packages for the pricing calculator
-    fetch(`${API_URL}/api/packages/`)
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          // Filter out Build-Your-Own (custom) packages, show only standard tiers
-          const standard = data.filter(p => !p.name.toLowerCase().includes('build-your-own') && parseFloat(p.price) >= 0);
-          setAvailablePackages(standard);
-          
-          // Set initial active video package ID to first package with video_url
-          const firstWithVideo = standard.find(p => p.video_url);
-          if (firstWithVideo) {
-            setSelectedVideoPkgId(firstWithVideo.id);
-          }
-        }
-      })
-      .catch(err => console.error('Error fetching packages:', err));
-
-    // Fetch Promo Video Section
-    fetch(`${API_URL}/api/promo-video/`)
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          const activeVideo = data.find(item => item.is_active);
-          setPromoVideo(activeVideo || null);
-        } else if (data && data.is_active) {
-          setPromoVideo(data);
-        }
-      })
-      .catch(err => console.error('Error fetching promo video:', err));
-
-    // Fetch Testimonials
-    fetch(`${API_URL}/api/testimonials/`)
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setDbTestimonials(data);
-        }
-      })
-      .catch(err => console.error('Error fetching testimonials:', err));
-  }, [API_URL]);
-
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
 
   useEffect(() => {
@@ -395,7 +328,22 @@ export default function Home() {
   }, []);
 
   const [customEmployees, setCustomEmployees] = useState(25);
-  const [availablePackages, setAvailablePackages] = useState([]);
+  const [availablePackages, setAvailablePackages] = useState([
+    {
+      id: "attendance",
+      name: "Attendance Management",
+      price: "99.00",
+      features: ["attendance"],
+      video_url: null
+    },
+    {
+      id: "tasks",
+      name: "Project Management",
+      price: "56.00",
+      features: ["tasks"],
+      video_url: null
+    }
+  ]);
   const [selectedPackageIds, setSelectedPackageIds] = useState(new Set());
 
   const calculateCustomPrice = () => {
