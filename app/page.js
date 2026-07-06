@@ -314,10 +314,8 @@ export default function Home() {
   const [testimonialSubmitting, setTestimonialSubmitting] = useState(false);
   const [testimonialSuccess, setTestimonialSuccess] = useState(false);
   const [testimonialError, setTestimonialError] = useState('');
-  let API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
-  if (API_URL === 'http://localhost:8000') {
-    API_URL = 'http://127.0.0.1:8000';
-  }
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://salmankwork.pythonanywhere.com';
+  const DASHBOARD_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://cubelogs-dashboard.vercel.app';
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
 
   useEffect(() => {
@@ -610,7 +608,7 @@ export default function Home() {
           </div>
 
           <div className="nav-actions">
-            <a href="http://localhost:3000/login" className="btn btn-outline">Sign In</a>
+            <a href={`${DASHBOARD_URL}/login`} className="btn btn-outline">Sign In</a>
           </div>
 
           <button className="mobile-menu-toggle" onClick={() => setMobileMenuOpen(true)} aria-label="Toggle mobile menu">
@@ -643,7 +641,7 @@ export default function Home() {
               <a href="#faq" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>FAQ</a>
             </div>
             <div className="mobile-menu-actions">
-              <a href="http://localhost:3000/login" className="btn btn-secondary" style={{ width: '100%' }}>Sign In</a>
+              <a href={`${DASHBOARD_URL}/login`} className="btn btn-secondary" style={{ width: '100%' }}>Sign In</a>
             </div>
           </div>
         </div>
@@ -663,7 +661,7 @@ export default function Home() {
             {cmsContent.hero_subtitle || 'Secure, scalable, and fully customizable. Streamline attendance, tasks, auditing, billing, and all your critical business operations in one unified ecosystem.'}
           </p>
           <div className="hero-actions">
-            <a href="http://localhost:3000/login" className="btn btn-secondary btn-large">Access Dashboard</a>
+            <a href={`${DASHBOARD_URL}/login`} className="btn btn-secondary btn-large">Access Dashboard</a>
             <a href="#pricing" className="btn btn-outline btn-large" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', border: '1px solid rgba(255,255,255,0.15)', color: '#ffffff', background: 'rgba(255,255,255,0.02)' }}>
               <span>Check Pricing</span>
               <ArrowRightIcon size={16} />
@@ -1232,7 +1230,7 @@ export default function Home() {
               Get started with geofenced tracking, biometric photo logging, and immutable system audit logs today.
             </p>
             <div className="cta-actions" style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-              <a href="http://localhost:3000/login" className="btn btn-secondary btn-large" style={{ background: 'var(--primary)', color: '#ffffff', border: 'none', boxShadow: '0 4px 14px rgba(37, 99, 235, 0.3)' }}>Launch Free Dashboard</a>
+              <a href={`${DASHBOARD_URL}/login`} className="btn btn-secondary btn-large" style={{ background: 'var(--primary)', color: '#ffffff', border: 'none', boxShadow: '0 4px 14px rgba(37, 99, 235, 0.3)' }}>Launch Free Dashboard</a>
               <button onClick={handleOpenModal} className="btn btn-outline" style={{ border: '1px solid rgba(255,255,255,0.25)', color: '#ffffff', background: 'rgba(255,255,255,0.02)' }}>Contact Enterprise Sales</button>
             </div>
           </div>
@@ -1398,7 +1396,7 @@ export default function Home() {
             &copy; {new Date().getFullYear()} CubeLogs Inc. All rights reserved.
           </div>
           <div className="footer-links">
-            <a href="http://localhost:3000/login" className="footer-link">SaaS Portal</a>
+            <a href={`${DASHBOARD_URL}/login`} className="footer-link">SaaS Portal</a>
             <a href="#features" className="footer-link">Security Policies</a>
             <a href="#pricing" className="footer-link">Terms</a>
           </div>
