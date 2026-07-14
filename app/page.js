@@ -1,126 +1,27 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-// Premium SVG Icon Components
-const CubeIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-    <line x1="12" y1="22.08" x2="12" y2="12" />
-  </svg>
-);
-
-const SparklesIcon = ({ size = 20, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-    <path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5.5z" />
-    <path d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z" />
-  </svg>
-);
-
-const MapPinIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-    <circle cx="12" cy="10" r="3" />
-  </svg>
-);
-
-const CameraIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
-    <circle cx="12" cy="13" r="3" />
-  </svg>
-);
-
-const ShieldIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-  </svg>
-);
-
-const CalendarIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-    <line x1="16" x2="16" y1="2" y2="6" />
-    <line x1="8" x2="8" y1="2" y2="6" />
-    <line x1="3" x2="21" y1="10" y2="10" />
-  </svg>
-);
-
-const ClockIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <circle cx="12" cy="12" r="10" />
-    <polyline points="12 6 12 12 16 14" />
-  </svg>
-);
-
-const PaletteIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.32115 19.475 5.34863 20.218 4.95477 20.7302C4.54296 21.2657 3.86477 21.4925 3.22071 21.2858C2.58557 21.0822 2 20.4075 2 19.5C2 17.5 3 16 5 15H7C8.10457 15 9 14.1046 9 13C9 12.4477 9.44772 12 10 12H14C14.5523 12 15 12.4477 15 13C15 14.1046 15.8954 15 17 15H19C21 15 22 16.5 22 18.5" />
-    <circle cx="7.5" cy="10.5" r="1.5" fill="currentColor" />
-    <circle cx="11.5" cy="7.5" r="1.5" fill="currentColor" />
-    <circle cx="16.5" cy="9.5" r="1.5" fill="currentColor" />
-  </svg>
-);
-
-const PhoneIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
-    <path d="M12 18h.01" />
-  </svg>
-);
-
-const MonitorIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <rect width="20" height="14" x="2" y="3" rx="2" />
-    <line x1="8" x2="16" y1="21" y2="21" />
-    <line x1="12" x2="12" y1="17" y2="21" />
-  </svg>
-);
-
-const GlobeIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <circle cx="12" cy="12" r="10" />
-    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-    <path d="M2 12h20" />
-  </svg>
-);
-
-const TvIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <rect width="20" height="15" x="2" y="3" rx="2" />
-    <polyline points="17 21 12 17 7 21" />
-  </svg>
-);
-
-const CheckIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-);
-
-const WarningIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-    <line x1="12" x2="12" y1="9" y2="13" />
-    <line x1="12" x2="12.01" y1="17" y2="17" />
-  </svg>
-);
-
-const CloseIcon = ({ size = 24, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <line x1="18" x2="6" y1="6" y2="18" />
-    <line x1="6" x2="18" y1="6" y2="18" />
-  </svg>
-);
-
-const ArrowRightIcon = ({ size = 20, ...props }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <line x1="5" x2="19" y1="12" y2="12" />
-    <polyline points="12 5 19 12 12 19" />
-  </svg>
-);
+import { 
+  CubeIcon, 
+  SparklesIcon, 
+  MapPinIcon, 
+  CameraIcon, 
+  ShieldIcon, 
+  CalendarIcon, 
+  ClockIcon, 
+  PaletteIcon, 
+  PhoneIcon, 
+  MonitorIcon, 
+  GlobeIcon, 
+  TvIcon, 
+  CheckIcon, 
+  WarningIcon, 
+  CloseIcon, 
+  ArrowRightIcon 
+} from '../components/promo/Icons';
+import FAQ from '../components/promo/FAQ';
+import Pricing from '../components/promo/Pricing';
+import LeadModal from '../components/promo/LeadModal';
 
 const FEATURES_DATA = [
   {
@@ -342,6 +243,54 @@ export default function Home() {
       video_url: null
     }
   ]);
+
+  useEffect(() => {
+    async function loadPackages() {
+      try {
+        const res = await fetch(`${API_URL}/api/packages/`);
+        if (res.ok) {
+          const data = await res.json();
+          const activePkgs = [];
+          
+          data.forEach(pkg => {
+            if (!pkg.isActive) return;
+            
+            const features = Array.isArray(pkg.features) ? pkg.features : [];
+            const featuresLower = features.map(f => String(f).toLowerCase());
+            
+            const isAttendance = featuresLower.includes('attendance') || pkg.name.toLowerCase().includes('attendance');
+            const isProject = featuresLower.includes('tasks') || featuresLower.includes('project') || pkg.name.toLowerCase().includes('project') || pkg.name.toLowerCase().includes('task');
+            
+            if (isAttendance) {
+              activePkgs.push({
+                id: 'attendance',
+                name: pkg.name,
+                price: pkg.price,
+                features: ['attendance'],
+                video_url: pkg.video_url || null,
+                embed_url: pkg.embed_url || null
+              });
+            } else if (isProject) {
+              activePkgs.push({
+                id: 'tasks',
+                name: pkg.name,
+                price: pkg.price,
+                features: ['tasks'],
+                video_url: pkg.video_url || null,
+                embed_url: pkg.embed_url || null
+              });
+            }
+          });
+          
+          setAvailablePackages(activePkgs);
+        }
+      } catch (err) {
+        console.error("Failed to load packages:", err);
+      }
+    }
+    loadPackages();
+  }, [API_URL]);
+
   const [selectedPackageIds, setSelectedPackageIds] = useState(new Set());
 
   const calculateCustomPrice = () => {
@@ -974,252 +923,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="pricing">
-        <div className="container">
-          <div className="section-header">
-            <span className="section-tag">Flexible Pricing</span>
-            <h2 className="section-title">{cmsContent.pricing_title || 'Transparent Plans Built to Scale'}</h2>
-            <p className="section-subtitle">
-              {cmsContent.pricing_subtitle || 'Start monitoring logs and attendance with predictable subscription plans that fit your team.'}
-            </p>
-          </div>
+      <Pricing
+        cmsContent={cmsContent}
+        customEmployees={customEmployees}
+        setCustomEmployees={setCustomEmployees}
+        calculateCustomPrice={calculateCustomPrice}
+        availablePackages={availablePackages}
+        selectedPackageIds={selectedPackageIds}
+        togglePackage={togglePackage}
+        handleOpenBuildYourOwnModal={handleOpenBuildYourOwnModal}
+        handleOpenEnterpriseModal={handleOpenEnterpriseModal}
+      />
 
-          {/* Grid of Custom Solutions */}
-          <div className="pricing-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 270px), 1fr))', maxWidth: '960px', margin: '0 auto' }}>
-            {/* Build-Your-Own Customizer */}
-            <div className="pricing-card popular" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div className="popular-badge">Calculated dynamically</div>
-              <div className="pricing-header">
-                <div>
-                  <h3>Build-Your-Own Plan</h3>
-                  <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: '1.4' }}>Configure and bundle specific software modules dynamically. Priced per active employee.</p>
-                </div>
-              </div>
-
-              <div className="customizer-ui" style={{ display: 'flex', flexDirection: 'column', gap: '16px', background: 'rgba(0, 0, 0, 0.2)', padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-                {/* Employee Count Input & Dynamic Price Box Row */}
-                <div className="customizer-input-price-row">
-                  <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '0px', flex: 1 }}>
-                    <label className="form-label" htmlFor="custom-employees" style={{ fontSize: '0.9rem', fontWeight: '600', color: '#ffffff', display: 'block', marginBottom: '0px' }}>
-                      Enter Estimated Team Size / Employee Count
-                    </label>
-                    <input
-                      id="custom-employees"
-                      type="number"
-                      min="0"
-                      value={customEmployees}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        if (val === '') {
-                          setCustomEmployees('');
-                        } else {
-                          const parsed = parseInt(val);
-                          setCustomEmployees(isNaN(parsed) ? '' : Math.max(0, parsed));
-                        }
-                      }}
-                      className="form-input"
-                      placeholder="e.g. 25"
-                      style={{
-                        width: '100%',
-                        padding: '10px 14px',
-                        background: 'rgba(15, 23, 42, 0.4)',
-                        border: '1px solid var(--border)',
-                        borderRadius: 'var(--radius-sm)',
-                        color: '#ffffff',
-                        fontSize: '0.9rem',
-                        outline: 'none',
-                        boxSizing: 'border-box'
-                      }}
-                    />
-                  </div>
-
-                  <div className="price-header-box" style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-end',
-                    background: 'rgba(37, 99, 235, 0.1)',
-                    border: '1px solid rgba(37, 99, 235, 0.25)',
-                    padding: '10px 16px',
-                    borderRadius: 'var(--radius-md)',
-                    minWidth: '130px',
-                    flexShrink: 0
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-                      <span className="price-currency" style={{ fontSize: '1.2rem', color: 'var(--secondary)', fontWeight: '700' }}>₹</span>
-                      <span className="price-amount" style={{ fontSize: '2.2rem', fontWeight: '850', color: '#ffffff', fontFamily: 'var(--font-heading)', lineHeight: '1' }}>
-                        {calculateCustomPrice().toLocaleString('en-IN')}
-                      </span>
-                    </div>
-                    <span className="price-period" style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '4px', fontWeight: '500' }}>/mo (INR)</span>
-                  </div>
-                </div>
-
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '-8px', display: 'block' }}>
-                  Core features are free. Add-ons are priced per active employee.
-                </span>
-
-                {/* Package tier selector */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: '600', color: '#ffffff', display: 'block' }}>
-                    Select Add-on Modules:
-                  </span>
-
-                  <div
-                    className="module-checkbox-label disabled"
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'rgba(255,255,255,0.02)', border: '1px dashed var(--border)', borderRadius: 'var(--radius-sm)', opacity: 0.7, fontSize: '0.85rem' }}
-                  >
-                    <div className="module-checkbox-left" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <div className="switch-toggle checked disabled" style={{ pointerEvents: 'none' }}>
-                        <div className="switch-handle" />
-                      </div>
-                      <span>Free Core Modules (Dashboard, Employees, Logs)</span>
-                    </div>
-                    <span className="module-cost" style={{ color: 'var(--text-muted)' }}>Free Bundle</span>
-                  </div>
-
-                  {availablePackages.length === 0 ? (
-                    <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', padding: '12px', background: 'rgba(255,255,255,0.03)', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--border)', textAlign: 'center' }}>
-                      Loading available packages...
-                    </div>
-                  ) : (
-                    availablePackages.map(pkg => {
-                      const isSelected = selectedPackageIds.has(pkg.id);
-                      return (
-                        <div
-                          key={pkg.id}
-                          className={`module-checkbox-label ${isSelected ? 'active' : ''}`}
-                          onClick={() => togglePackage(pkg.id)}
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            padding: '8px 12px',
-                            background: isSelected ? 'rgba(37,99,235,0.1)' : 'rgba(255,255,255,0.02)',
-                            border: `1px solid ${isSelected ? 'rgba(37,99,235,0.5)' : 'var(--border)'}`,
-                            borderRadius: 'var(--radius-sm)',
-                            cursor: 'pointer',
-                            fontSize: '0.85rem',
-                            transition: 'all 0.15s ease',
-                          }}
-                        >
-                          <div className="module-checkbox-left" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <div className={`switch-toggle ${isSelected ? 'checked' : ''}`} style={{ pointerEvents: 'none' }}>
-                              <div className="switch-handle" />
-                            </div>
-                            <span>{pkg.name}</span>
-                          </div>
-                          <span className="module-cost" style={{ color: 'var(--secondary)' }}>
-                            +₹{parseFloat(pkg.price).toLocaleString('en-IN')}/emp
-                          </span>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
-              </div>
-
-              <button className="btn btn-primary" onClick={handleOpenBuildYourOwnModal} style={{ width: '100%', display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'center', marginTop: 'auto' }}>
-                <span>Configure &amp; Register Plan</span>
-                <ArrowRightIcon size={16} />
-              </button>
-            </div>
-
-            {/* Enterprise Agency Capabilities */}
-            <div className="pricing-card" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div className="pricing-header">
-                <h3>Enterprise Plan</h3>
-                <p>Custom software development engineered for corporate workflows.</p>
-              </div>
-
-              <div className="agency-capabilities" style={{ display: 'flex', flexDirection: 'column', gap: '16px', flexGrow: 1 }}>
-                <span style={{ fontSize: '0.85rem', fontWeight: '600', color: '#ffffff', display: 'block' }}>
-                  Agency-Level Software Engineering Services:
-                </span>
-
-                <div className="capability-item" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                  <span className="capability-icon" style={{ color: 'var(--secondary)', display: 'flex', marginTop: '3px' }}><PhoneIcon size={20} /></span>
-                  <div className="capability-text">
-                    <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '700', color: '#ffffff' }}>Specialized Mobile Apps</h4>
-                    <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>Native iOS & Android builds designed with custom workflows and biometric capture integrations.</p>
-                  </div>
-                </div>
-
-                <div className="capability-item" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                  <span className="capability-icon" style={{ color: 'var(--secondary)', display: 'flex', marginTop: '3px' }}><MonitorIcon size={20} /></span>
-                  <div className="capability-text">
-                    <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '700', color: '#ffffff' }}>Standalone Desktop Software</h4>
-                    <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>Robust desktop systems engineered for offline sync and dedicated hardware connectivity on Windows & macOS.</p>
-                  </div>
-                </div>
-
-                <div className="capability-item" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                  <span className="capability-icon" style={{ color: 'var(--secondary)', display: 'flex', marginTop: '3px' }}><GlobeIcon size={20} /></span>
-                  <div className="capability-text">
-                    <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '700', color: '#ffffff' }}>Advanced Web Applications</h4>
-                    <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>Highly secure portals, database managers, and customized intranet solutions deployed on cloud clusters.</p>
-                  </div>
-                </div>
-
-                <div className="capability-item" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                  <span className="capability-icon" style={{ color: 'var(--secondary)', display: 'flex', marginTop: '3px' }}><TvIcon size={20} /></span>
-                  <div className="capability-text">
-                    <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '700', color: '#ffffff' }}>Corporate Websites</h4>
-                    <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>High-conversion landing hubs, brand portals, and media pipelines optimized for speed and SEO rankings.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="price-box" style={{ marginBottom: '16px' }}>
-                <span className="price-amount" style={{ fontSize: '2.5rem', fontWeight: '800', color: '#ffffff' }}>Let's Talk</span>
-              </div>
-
-              <button className="btn btn-secondary" onClick={handleOpenEnterpriseModal} style={{ width: '100%' }}>
-                Request Consultation
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section id="faq" className="faq" style={{ padding: '100px 0', borderTop: '1px solid var(--border)' }}>
-        <div className="container">
-          <div className="section-header" style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <span className="section-tag" style={{ color: 'var(--secondary)', fontSize: '0.88rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: '12px' }}>Common Inquiries</span>
-            <h2 className="section-title" style={{ fontSize: '2.2rem', color: '#ffffff', marginBottom: '16px' }}>Frequently Asked Questions</h2>
-            <p className="section-subtitle" style={{ fontSize: '1.05rem', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto' }}>
-              Have questions about billing, security, coordinates setup, or geofencing options? Find quick answers here.
-            </p>
-          </div>
-          
-          <div className="faq-list" style={{ maxWidth: '780px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {faqs.map((faq, idx) => {
-              const isOpen = activeFaq === idx;
-              return (
-                <div key={idx} className={`faq-item ${isOpen ? 'open' : ''}`} style={{ background: 'var(--surface-glass)', border: `1px solid ${isOpen ? 'var(--primary)' : 'var(--border)'}`, borderRadius: 'var(--radius-md)', overflow: 'hidden', transition: 'all 0.25s ease' }}>
-                  <button 
-                    className="faq-question" 
-                    onClick={() => setActiveFaq(isOpen ? null : idx)}
-                    aria-expanded={isOpen}
-                    style={{ width: '100%', padding: '24px 28px', background: 'none', border: 'none', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', color: '#ffffff', fontSize: '1.05rem', fontWeight: '600' }}
-                  >
-                    <span>{faq.q}</span>
-                    <span className="faq-icon" style={{ display: 'flex', alignItems: 'center', transition: 'transform 0.2s ease', transform: isOpen ? 'rotate(180deg)' : 'none', color: isOpen ? 'var(--secondary)' : 'var(--text-muted)' }}>
-                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </span>
-                  </button>
-                  <div className="faq-answer-wrapper" style={{ maxHeight: isOpen ? '200px' : '0', overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
-                    <div className="faq-answer" style={{ padding: '0 28px 24px', color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.6' }}>
-                      <p style={{ margin: 0 }}>{faq.a}</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <FAQ
+        faqs={faqs}
+        activeFaq={activeFaq}
+        setActiveFaq={setActiveFaq}
+      />
 
       {/* Bottom CTA Section */}
       <section className="bottom-cta-section" style={{ padding: '100px 0', borderTop: '1px solid var(--border)', background: 'linear-gradient(180deg, rgba(3, 7, 18, 0) 0%, rgba(37, 99, 235, 0.05) 100%)' }}>
@@ -1238,152 +958,18 @@ export default function Home() {
       </section>
 
       {/* Lead Generation Modal */}
-      {isModalOpen && (
-        <div className="modal-overlay" onClick={handleCloseModal}>
-          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={handleCloseModal} style={{ display: 'flex', padding: '4px' }}>
-              <CloseIcon size={20} />
-            </button>
-            
-            {!isSuccess ? (
-              <>
-                <h3 className="modal-title">
-                  {modalMode === 'contact' ? 'Contact Us' : modalMode === 'enterprise' ? 'Request Enterprise Plan' : 'Register'}
-                </h3>
-                <p className="modal-subtitle">
-                  {modalMode === 'contact' 
-                    ? 'Get in touch with our team.' 
-                    : modalMode === 'enterprise' 
-                      ? "Let us know about your team's custom requirements." 
-                      : 'Create your account to get started.'}
-                </p>
-                
-                {submitError && (
-                  <div style={{ color: '#ef4444', background: 'rgba(239, 68, 68, 0.1)', padding: '12px', borderRadius: 'var(--radius-sm)', marginBottom: '20px', fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <WarningIcon size={16} />
-                    <span>{submitError}</span>
-                  </div>
-                )}
-
-                <form onSubmit={handleSubmit}>
-                  {modalMode !== 'register' && (
-                    <div className="form-group">
-                      <label className="form-label">Full Name *</label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        className="form-input"
-                        placeholder="Jane Doe"
-                        required
-                      />
-                      {errors.name && <span className="form-error">{errors.name}</span>}
-                    </div>
-                  )}
-
-                  <div className="form-group">
-                    <label className="form-label">Email Address *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="form-input"
-                      placeholder="jane@company.com"
-                      required
-                    />
-                    {errors.email && <span className="form-error">{errors.email}</span>}
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Phone Number *</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="form-input"
-                      placeholder="+1 (555) 019-2834"
-                      required
-                    />
-                    {errors.phone && <span className="form-error">{errors.phone}</span>}
-                  </div>
-
-                  {modalMode !== 'register' && (
-                    <div className="form-group">
-                      <label className="form-label">Company Name {modalMode === 'enterprise' ? '*' : '(Optional)'}</label>
-                      <input
-                        type="text"
-                        name="companyName"
-                        value={formData.companyName}
-                        onChange={handleInputChange}
-                        className="form-input"
-                        placeholder="Acme Corp"
-                        required={modalMode === 'enterprise'}
-                      />
-                      {errors.companyName && <span className="form-error">{errors.companyName}</span>}
-                    </div>
-                  )}
-
-                  {modalMode !== 'register' && (
-                    <div className="form-group">
-                      <label className="form-label">Message *</label>
-                      <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        className="form-input"
-                        placeholder={modalMode === 'enterprise' ? "Describe your team size, custom workflows, or compliance requirements..." : "How can we help you?"}
-                        rows={4}
-                        style={{ resize: 'none', fontFamily: 'inherit' }}
-                        required
-                      />
-                      {errors.message && <span className="form-error">{errors.message}</span>}
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary form-submit-btn"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                        <span className="spinner"></span>
-                        {modalMode === 'contact' ? 'Sending Message...' : modalMode === 'enterprise' ? 'Submitting Request...' : 'Registering Interest...'}
-                      </span>
-                    ) : (
-                      modalMode === 'contact' ? 'Send Message' : modalMode === 'enterprise' ? 'Request Consultation' : 'Submit Request'
-                    )}
-                  </button>
-                </form>
-              </>
-            ) : (
-              <div className="success-state">
-                <div className="success-icon" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <CheckIcon size={36} />
-                </div>
-                <h3 className="success-title" style={{ color: '#10b981', fontWeight: '800' }}>
-                  {modalMode === 'contact' ? 'Message Sent Successfully!' : modalMode === 'enterprise' ? 'Consultation Request Received!' : 'Verification anchors have been dispatched.'}
-                </h3>
-                <p className="success-message">
-                  {modalMode === 'contact' ? (
-                    <>Thank you, <strong>{formData.name}</strong>. We have received your inquiry and will get back to you shortly at <strong>{formData.email}</strong>.</>
-                  ) : modalMode === 'enterprise' ? (
-                    <>Thank you, <strong>{formData.name}</strong>. Our enterprise solutions team has received your request and will contact you shortly at <strong>{formData.email}</strong> or <strong>{formData.phone}</strong>.</>
-                  ) : (
-                    <>Thank you, <strong>{formData.name}</strong>. Your customized CubeLogs workspace is being provisioned. Please check your inbox at <strong>{formData.email}</strong> for your temporary admin credentials and the access link.</>
-                  )}
-                </p>
-                <button className="btn btn-primary" onClick={handleCloseModal} style={{ padding: '10px 24px' }}>
-                  Got it
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      <LeadModal
+        isModalOpen={isModalOpen}
+        handleCloseModal={handleCloseModal}
+        modalMode={modalMode}
+        submitError={submitError}
+        formData={formData}
+        handleInputChange={handleInputChange}
+        errors={errors}
+        handleSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
+        isSuccess={isSuccess}
+      />
 
       {/* Footer Section */}
       <footer className="footer">
