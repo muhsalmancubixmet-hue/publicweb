@@ -209,7 +209,7 @@ export default function Pricing({
             </div>
 
             <div className="price-box" style={{ marginBottom: '16px' }}>
-              <span className="price-amount" style={{ fontSize: '2.5rem', fontWeight: '800', color: '#ffffff' }}>Let's Talk</span>
+              <span className="price-amount" style={{ fontSize: '2.5rem', fontWeight: '800', color: '#ffffff' }}>Let&apos;s Talk</span>
             </div>
 
             <button className="btn btn-secondary" onClick={handleOpenEnterpriseModal} style={{ width: '100%' }}>

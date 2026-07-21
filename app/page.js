@@ -810,7 +810,7 @@ export default function Home() {
               <div key={idx} className="testimonial-card" style={{ background: 'var(--surface-glass)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '36px', display: 'flex', flexDirection: 'column', gap: '20px', backdropFilter: 'blur(12px)' }}>
                 <div className="testimonial-stars" style={{ color: '#f59e0b', fontSize: '1.1rem' }}>{"★".repeat(test.stars || 5)}</div>
                 <p className="testimonial-text" style={{ margin: 0, fontSize: '0.98rem', color: '#d1d5db', lineHeight: 1.6, flexGrow: 1 }}>
-                  "{test.text}"
+                  &ldquo;{test.text}&rdquo;
                 </p>
                 <div className="testimonial-author" style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '16px' }}>
                   <div className="author-avatar" style={{ width: '40px', height: '40px', borderRadius: '50%', background: test.bg_color || 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: '700', fontSize: '0.9rem' }}>{test.author_initials || "U"}</div>
