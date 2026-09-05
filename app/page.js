@@ -67,7 +67,7 @@ const getModuleInfo = (pkgName) => {
   }
   if (name.includes('project') || name.includes('task')) {
     return {
-      title: 'Project & Tasks Management',
+      title: 'Project Management',
       subtitle: 'Kanban boards, task tracking & objectives',
       description: 'Streamline team alignment by creating, assigning, and tracking tasks. The workflow logs progress automatically, providing managers with clear insights into objectives and operational efficiency.'
     };
@@ -247,69 +247,99 @@ export default function Home() {
   const [coreSeatPrice, setCoreSeatPrice] = useState(50);
 
   useEffect(() => {
-    async function loadPackages() {
+    let isMounted = true;
+
+    async function loadPricingAndPackages() {
+      // 1. Initialize with canonical rates and structure
+      let coreRate = 50;
+      let attendanceRate = '99.00';
+      let projectRate = '56.00';
+
       try {
-        const res = await fetch(`${API_URL}/api/packages/`);
-        if (res.ok) {
-          const data = await res.json();
-          if (!data || !Array.isArray(data.results)) {
-            console.error("Invalid packages API response format:", data);
-            return;
-          }
-          const packages = data.results;
-          const activePkgs = [];
-
-          packages.forEach(pkg => {
-            if (!pkg.isActive) return;
-
-            const features = Array.isArray(pkg.features) ? pkg.features : [];
-            const featuresLower = features.map(f => String(f).toLowerCase());
-
-            const isAttendance = featuresLower.includes('attendance') || pkg.name.toLowerCase().includes('attendance');
-            const isProject = featuresLower.includes('tasks') || featuresLower.includes('project') || pkg.name.toLowerCase().includes('project') || pkg.name.toLowerCase().includes('task');
-
-            if (isAttendance) {
-              activePkgs.push({
-                id: 'attendance',
-                name: pkg.name,
-                price: pkg.price,
-                features: ['attendance'],
-                video_url: pkg.video_url || null,
-                embed_url: pkg.embed_url || null
-              });
-            } else if (isProject) {
-              activePkgs.push({
-                id: 'tasks',
-                name: pkg.name,
-                price: pkg.price,
-                features: ['tasks'],
-                video_url: pkg.video_url || null,
-                embed_url: pkg.embed_url || null
-              });
+        const pricingRes = await fetch(`${API_URL}/api/public-pricing/`);
+        if (pricingRes.ok) {
+          const pricingData = await pricingRes.json();
+          if (pricingData) {
+            if (pricingData.employee_seat_price) {
+              coreRate = parseFloat(pricingData.employee_seat_price) || 50;
             }
-          });
-
-          setAvailablePackages(activePkgs);
-        }
-      } catch (err) {
-        console.error("Failed to load packages:", err);
-      }
-    }
-    async function loadPricing() {
-      try {
-        const res = await fetch(`${API_URL}/api/public-pricing/`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.employee_seat_price) {
-            setCoreSeatPrice(parseFloat(data.employee_seat_price) || 50);
+            if (pricingData.attendance_module_price) {
+              attendanceRate = parseFloat(pricingData.attendance_module_price).toFixed(2);
+            }
+            if (pricingData.project_module_price) {
+              projectRate = parseFloat(pricingData.project_module_price).toFixed(2);
+            }
           }
         }
       } catch (err) {
         console.error("Failed to load canonical public pricing:", err);
       }
+
+      if (!isMounted) return;
+      setCoreSeatPrice(coreRate);
+
+      // Exactly two canonical billable add-ons: Attendance Management and Project Management
+      const attendancePkg = {
+        id: 'attendance',
+        name: 'Attendance Management',
+        price: attendanceRate,
+        features: ['attendance'],
+        video_url: null,
+        embed_url: null
+      };
+
+      const projectPkg = {
+        id: 'tasks',
+        name: 'Project Management',
+        price: projectRate,
+        features: ['tasks'],
+        video_url: null,
+        embed_url: null
+      };
+
+      // 2. Fetch walkthrough videos / demo metadata from /api/packages/
+      try {
+        const pkgRes = await fetch(`${API_URL}/api/packages/`);
+        if (pkgRes.ok) {
+          const data = await pkgRes.json();
+          if (data && Array.isArray(data.results)) {
+            data.results.forEach(pkg => {
+              if (!pkg.isActive) return;
+
+              const features = Array.isArray(pkg.features) ? pkg.features : [];
+              const featuresLower = features.map(f => String(f).toLowerCase());
+              const nameLower = (pkg.name || '').toLowerCase();
+
+              const isAttendance = featuresLower.includes('attendance') || nameLower.includes('attendance');
+              const isProject = featuresLower.includes('tasks') || featuresLower.includes('project') || featuresLower.includes('project_management') || nameLower.includes('project') || nameLower.includes('task');
+
+              if (isAttendance) {
+                if (pkg.video_url && !attendancePkg.video_url) {
+                  attendancePkg.video_url = pkg.video_url;
+                  attendancePkg.embed_url = pkg.embed_url || null;
+                }
+              } else if (isProject) {
+                // Capture video walkthrough if available from any project package
+                if (pkg.video_url && !projectPkg.video_url) {
+                  projectPkg.video_url = pkg.video_url;
+                  projectPkg.embed_url = pkg.embed_url || null;
+                }
+              }
+            });
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load package metadata:", err);
+      }
+
+      if (!isMounted) return;
+      setAvailablePackages([attendancePkg, projectPkg]);
     }
-    loadPackages();
-    loadPricing();
+
+    loadPricingAndPackages();
+    return () => {
+      isMounted = false;
+    };
   }, [API_URL]);
 
   const [selectedPackageIds, setSelectedPackageIds] = useState(new Set());
