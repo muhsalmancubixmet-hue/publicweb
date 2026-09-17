@@ -1,23 +1,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { 
-  CubeIcon, 
-  SparklesIcon, 
-  MapPinIcon, 
-  CameraIcon, 
-  ShieldIcon, 
-  CalendarIcon, 
-  ClockIcon, 
-  PaletteIcon, 
-  PhoneIcon, 
-  MonitorIcon, 
-  GlobeIcon, 
-  TvIcon, 
-  CheckIcon, 
-  WarningIcon, 
-  CloseIcon, 
-  ArrowRightIcon 
+import {
+  CubeIcon,
+  SparklesIcon,
+  MapPinIcon,
+  CameraIcon,
+  ShieldIcon,
+  CalendarIcon,
+  ClockIcon,
+  PaletteIcon,
+  PhoneIcon,
+  MonitorIcon,
+  GlobeIcon,
+  TvIcon,
+  CheckIcon,
+  WarningIcon,
+  CloseIcon,
+  ArrowRightIcon
 } from '../components/promo/Icons';
 import FAQ from '../components/promo/FAQ';
 import Pricing from '../components/promo/Pricing';
@@ -67,7 +67,7 @@ const getModuleInfo = (pkgName) => {
   }
   if (name.includes('project') || name.includes('task')) {
     return {
-      title: 'Project & Tasks Management',
+      title: 'Project Management',
       subtitle: 'Kanban boards, task tracking & objectives',
       description: 'Streamline team alignment by creating, assigning, and tracking tasks. The workflow logs progress automatically, providing managers with clear insights into objectives and operational efficiency.'
     };
@@ -170,16 +170,16 @@ const DEFAULT_CLIENT_LOGOS = [
 const getLogoIcon = (type) => {
   switch (type) {
     case 'system':
-      return <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>;
+      return <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>;
     case 'corp':
-      return <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4.5 16.5c-1.5 1.26-2.5 3.19-2.5 5.5h20c0-2.31-1-4.24-2.5-5.5M12 2C8.69 2 6 4.69 6 8c0 3.31 2.69 6 6 6s6-2.69 6-6c0-3.31-2.69-6-6-6z"/></svg>;
+      return <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4.5 16.5c-1.5 1.26-2.5 3.19-2.5 5.5h20c0-2.31-1-4.24-2.5-5.5M12 2C8.69 2 6 4.69 6 8c0 3.31 2.69 6 6 6s6-2.69 6-6c0-3.31-2.69-6-6-6z" /></svg>;
     case 'digital':
-      return <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>;
+      return <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" /></svg>;
     case 'labs':
-      return <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>;
+      return <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>;
     case 'grid':
     default:
-      return <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M3 3h18v18H3zM21 9H3M21 15H3M12 3v18"/></svg>;
+      return <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M3 3h18v18H3zM21 9H3M21 15H3M12 3v18" /></svg>;
   }
 };
 
@@ -215,8 +215,17 @@ export default function Home() {
   const [testimonialSubmitting, setTestimonialSubmitting] = useState(false);
   const [testimonialSuccess, setTestimonialSuccess] = useState(false);
   const [testimonialError, setTestimonialError] = useState('');
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://salmankwork.pythonanywhere.com';
-  const DASHBOARD_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://cubelogs-dashboard.vercel.app';
+  let API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://salmankwork.pythonanywhere.com';
+  let DASHBOARD_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://cubelogs-dashboard.vercel.app';
+
+  if (typeof window !== 'undefined') {
+    const hn = window.location.hostname;
+    const isLocalOrLan = hn === 'localhost' || hn === '127.0.0.1' || hn.startsWith('192.168.') || hn.startsWith('10.') || hn.startsWith('172.');
+    if (isLocalOrLan) {
+      API_URL = '';
+      DASHBOARD_URL = `${window.location.protocol}//${hn}:3000`;
+    }
+  }
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
 
   useEffect(() => {
@@ -244,63 +253,114 @@ export default function Home() {
     }
   ]);
 
+  const [coreSeatPrice, setCoreSeatPrice] = useState(50);
+
   useEffect(() => {
-    async function loadPackages() {
+    let isMounted = true;
+
+    async function loadPricingAndPackages() {
+      // 1. Initialize with canonical rates and structure
+      let coreRate = 50;
+      let attendanceRate = '99.00';
+      let projectRate = '56.00';
+
       try {
-        const res = await fetch(`${API_URL}/api/packages/`);
-        if (res.ok) {
-          const data = await res.json();
-          const activePkgs = [];
-          
-          data.forEach(pkg => {
-            if (!pkg.isActive) return;
-            
-            const features = Array.isArray(pkg.features) ? pkg.features : [];
-            const featuresLower = features.map(f => String(f).toLowerCase());
-            
-            const isAttendance = featuresLower.includes('attendance') || pkg.name.toLowerCase().includes('attendance');
-            const isProject = featuresLower.includes('tasks') || featuresLower.includes('project') || pkg.name.toLowerCase().includes('project') || pkg.name.toLowerCase().includes('task');
-            
-            if (isAttendance) {
-              activePkgs.push({
-                id: 'attendance',
-                name: pkg.name,
-                price: pkg.price,
-                features: ['attendance'],
-                video_url: pkg.video_url || null,
-                embed_url: pkg.embed_url || null
-              });
-            } else if (isProject) {
-              activePkgs.push({
-                id: 'tasks',
-                name: pkg.name,
-                price: pkg.price,
-                features: ['tasks'],
-                video_url: pkg.video_url || null,
-                embed_url: pkg.embed_url || null
-              });
+        const pricingRes = await fetch(`${API_URL}/api/public-pricing/`);
+        if (pricingRes.ok) {
+          const pricingData = await pricingRes.json();
+          if (pricingData) {
+            if (pricingData.employee_seat_price) {
+              coreRate = parseFloat(pricingData.employee_seat_price) || 50;
             }
-          });
-          
-          setAvailablePackages(activePkgs);
+            if (pricingData.attendance_module_price) {
+              attendanceRate = parseFloat(pricingData.attendance_module_price).toFixed(2);
+            }
+            if (pricingData.project_module_price) {
+              projectRate = parseFloat(pricingData.project_module_price).toFixed(2);
+            }
+          }
         }
       } catch (err) {
-        console.error("Failed to load packages:", err);
+        console.error("Failed to load canonical public pricing:", err);
       }
+
+      if (!isMounted) return;
+      setCoreSeatPrice(coreRate);
+
+      // Exactly two canonical billable add-ons: Attendance Management and Project Management
+      const attendancePkg = {
+        id: 'attendance',
+        name: 'Attendance Management',
+        price: attendanceRate,
+        features: ['attendance'],
+        video_url: null,
+        embed_url: null
+      };
+
+      const projectPkg = {
+        id: 'tasks',
+        name: 'Project Management',
+        price: projectRate,
+        features: ['tasks'],
+        video_url: null,
+        embed_url: null
+      };
+
+      // 2. Fetch walkthrough videos / demo metadata from /api/packages/
+      try {
+        const pkgRes = await fetch(`${API_URL}/api/packages/`);
+        if (pkgRes.ok) {
+          const data = await pkgRes.json();
+          if (data && Array.isArray(data.results)) {
+            data.results.forEach(pkg => {
+              if (!pkg.isActive) return;
+
+              const features = Array.isArray(pkg.features) ? pkg.features : [];
+              const featuresLower = features.map(f => String(f).toLowerCase());
+              const nameLower = (pkg.name || '').toLowerCase();
+
+              const isAttendance = featuresLower.includes('attendance') || nameLower.includes('attendance');
+              const isProject = featuresLower.includes('tasks') || featuresLower.includes('project') || featuresLower.includes('project_management') || nameLower.includes('project') || nameLower.includes('task');
+
+              if (isAttendance) {
+                if (pkg.video_url && !attendancePkg.video_url) {
+                  attendancePkg.video_url = pkg.video_url;
+                  attendancePkg.embed_url = pkg.embed_url || null;
+                }
+              } else if (isProject) {
+                // Capture video walkthrough if available from any project package
+                if (pkg.video_url && !projectPkg.video_url) {
+                  projectPkg.video_url = pkg.video_url;
+                  projectPkg.embed_url = pkg.embed_url || null;
+                }
+              }
+            });
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load package metadata:", err);
+      }
+
+      if (!isMounted) return;
+      setAvailablePackages([attendancePkg, projectPkg]);
     }
-    loadPackages();
+
+    loadPricingAndPackages();
+    return () => {
+      isMounted = false;
+    };
   }, [API_URL]);
 
   const [selectedPackageIds, setSelectedPackageIds] = useState(new Set());
 
   const calculateCustomPrice = () => {
-    let total = 0;
+    let perEmployeeRate = coreSeatPrice; // Canonical Core Employee Platform Seat rate
     selectedPackageIds.forEach(id => {
       const pkg = availablePackages.find(p => p.id === id);
-      if (pkg) total += parseFloat(pkg.price);
+      if (pkg) perEmployeeRate += parseFloat(pkg.price);
     });
     const employeeCount = parseInt(customEmployees) || 0;
-    return employeeCount * total;
+    return employeeCount * perEmployeeRate;
   };
 
   const togglePackage = (id) => {
@@ -370,21 +430,11 @@ export default function Home() {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (modalMode !== 'register') {
       if (!formData.name || !formData.name.trim()) {
         newErrors.name = 'Full name is required';
       }
-    }
-    
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-    
-    if (!formData.phone || !formData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
     }
 
     if (modalMode === 'enterprise') {
@@ -393,12 +443,24 @@ export default function Home() {
       }
     }
 
+    const emailTrimmed = formData.email ? formData.email.trim() : '';
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailTrimmed) {
+      newErrors.email = 'Email is required';
+    } else if (!emailRegex.test(emailTrimmed)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!formData.phone || !formData.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    }
+
     if (modalMode !== 'register') {
       if (!formData.message || !formData.message.trim()) {
         newErrors.message = 'Message/Inquiry details are required';
       }
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -410,20 +472,34 @@ export default function Home() {
     setIsSubmitting(true);
     setSubmitError('');
 
-    const emailPrefix = formData.email ? formData.email.split('@')[0] : 'Prospect';
-    const computedName = formData.name ? formData.name.trim() : (emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1));
-    
-    const emailDomain = formData.email ? formData.email.split('@')[1] : '';
-    const displayCompany = emailDomain ? emailDomain.split('.')[0] : 'Company';
-    const computedCompany = formData.companyName ? formData.companyName.trim() : (displayCompany.charAt(0).toUpperCase() + displayCompany.slice(1));
+    const cleanEmail = formData.email.trim();
+    const cleanPhone = formData.phone.trim();
+    const cleanName = formData.name ? formData.name.trim() : '';
+    const cleanCompany = formData.companyName ? formData.companyName.trim() : '';
 
-    const payload = {
-      name: computedName,
-      email: formData.email,
-      phone: formData.phone,
-      companyName: computedCompany,
-      message: formData.message || 'No additional message'
-    };
+    const emailPrefix = cleanEmail ? cleanEmail.split('@')[0] : 'Prospect';
+    const computedName = cleanName || (emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1));
+
+    const emailDomain = cleanEmail ? cleanEmail.split('@')[1] : '';
+    const displayCompany = emailDomain ? emailDomain.split('.')[0] : 'Company';
+    const computedCompany = cleanCompany || (displayCompany.charAt(0).toUpperCase() + displayCompany.slice(1));
+
+    let payload = {};
+    if (modalMode === 'register') {
+      payload = {
+        email: cleanEmail,
+        phone: cleanPhone,
+        message: formData.message || 'No additional message'
+      };
+    } else {
+      payload = {
+        name: cleanName,
+        email: cleanEmail,
+        phone: cleanPhone,
+        companyName: cleanCompany || undefined,
+        message: formData.message || 'No additional message'
+      };
+    }
 
     try {
       const response = await fetch(`${API_URL}/api/leads/public/`, {
@@ -438,15 +514,31 @@ export default function Home() {
         setFormData(prev => ({
           ...prev,
           name: computedName,
+          email: cleanEmail,
           companyName: computedCompany
         }));
         setIsSuccess(true);
       } else {
         const errData = await response.json().catch(() => ({}));
-        setSubmitError(errData.detail || 'Failed to submit form. Please check your inputs and try again.');
+        let errorMsg = '';
+        if (errData.detail) {
+          errorMsg = errData.detail;
+        } else if (typeof errData === 'object' && errData !== null) {
+          const fieldKeys = Object.keys(errData);
+          if (fieldKeys.length > 0) {
+            const firstField = fieldKeys[0];
+            const firstErr = errData[firstField];
+            if (Array.isArray(firstErr) && firstErr.length > 0) {
+              errorMsg = `${firstField}: ${firstErr[0]}`;
+            } else if (typeof firstErr === 'string') {
+              errorMsg = `${firstField}: ${firstErr}`;
+            }
+          }
+        }
+        setSubmitError(errorMsg || 'Failed to submit form. Please check your inputs and try again.');
       }
     } catch (err) {
-      setSubmitError(`Connection to server failed. Make sure the backend service is running on ${API_URL}.`);
+      setSubmitError(`Connection to server failed. Make sure the backend service is running on ${API_URL || 'port 8000'}.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -466,7 +558,7 @@ export default function Home() {
     // Get initials
     const names = newTestimonial.author_name.trim().split(' ');
     const initials = names.map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U';
-    
+
     const randomBgColors = ['var(--primary)', 'var(--secondary)', '#818cf8', '#ec4899', '#f59e0b', '#10b981'];
     const randomBg = randomBgColors[Math.floor(Math.random() * randomBgColors.length)];
 
@@ -504,7 +596,7 @@ export default function Home() {
         setTestimonialError(errData.detail || 'Failed to submit testimonial.');
       }
     } catch (err) {
-      setTestimonialError(`Connection to server failed. Make sure the backend service is running on ${API_URL}.`);
+      setTestimonialError(`Connection to server failed. Make sure the backend service is running on ${API_URL || 'port 8000'}.`);
     } finally {
       setTestimonialSubmitting(false);
     }
@@ -548,7 +640,7 @@ export default function Home() {
             <img src="/cubixmet.png" alt="CubeLogs Logo" style={{ height: '34px', width: 'auto', objectFit: 'contain' }} />
             <span className="logo-text">CubeLogs</span>
           </div>
-          
+
           <div className="nav-links">
             <a href="#features" className="nav-item">Features</a>
             <a href="#testimonials" className="nav-item">Testimonials</a>
@@ -686,8 +778,8 @@ export default function Home() {
             </div>
             <div className="features-carousel-dots">
               {FEATURES_DATA.map((_, idx) => (
-                <span 
-                  key={idx} 
+                <span
+                  key={idx}
                   className={`dot ${idx === activeFeatureIndex ? 'active' : ''}`}
                   onClick={() => setActiveFeatureIndex(idx)}
                 />
@@ -758,7 +850,7 @@ export default function Home() {
               const info = getModuleInfo(activePkg.name);
               return (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: '40px', alignItems: 'center' }}>
-                  
+
                   {/* Left Column: Title & Description */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <span className="section-tag" style={{ alignSelf: 'flex-start', background: 'rgba(99, 102, 241, 0.1)', color: '#818cf8' }}>{info.subtitle}</span>
@@ -804,7 +896,7 @@ export default function Home() {
               See how operations directors and human resources managers streamline compliance and audit trails with CubeLogs.
             </p>
           </div>
-          
+
           <div className="testimonials-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
             {testimonials.map((test, idx) => (
               <div key={idx} className="testimonial-card" style={{ background: 'var(--surface-glass)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '36px', display: 'flex', flexDirection: 'column', gap: '20px', backdropFilter: 'blur(12px)' }}>
@@ -925,6 +1017,7 @@ export default function Home() {
 
       <Pricing
         cmsContent={cmsContent}
+        coreSeatPrice={coreSeatPrice}
         customEmployees={customEmployees}
         setCustomEmployees={setCustomEmployees}
         calculateCustomPrice={calculateCustomPrice}

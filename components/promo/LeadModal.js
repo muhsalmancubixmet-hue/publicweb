@@ -150,7 +150,7 @@ export default function LeadModal({
               ) : modalMode === 'enterprise' ? (
                 <>Thank you, <strong>{formData.name}</strong>. Our enterprise solutions team has received your request and will contact you shortly at <strong>{formData.email}</strong> or <strong>{formData.phone}</strong>.</>
               ) : (
-                <>Thank you, <strong>{formData.name}</strong>. Your customized CubeLogs workspace is being provisioned. Please check your inbox at <strong>{formData.email}</strong> for your temporary admin credentials and the access link.</>
+                <>Thank you! Your customized CubeLogs workspace is being provisioned. Please check your inbox at <strong>{formData.email}</strong> for your temporary admin credentials and the access link.</>
               )}
             </p>
             <button className="btn btn-primary" onClick={handleCloseModal} style={{ padding: '10px 24px' }}>

@@ -3,6 +3,7 @@ import { ArrowRightIcon, PhoneIcon, MonitorIcon, GlobeIcon, TvIcon } from './Ico
 
 export default function Pricing({
   cmsContent,
+  coreSeatPrice = 50,
   customEmployees,
   setCustomEmployees,
   calculateCustomPrice,
@@ -94,26 +95,26 @@ export default function Pricing({
               </div>
 
               <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '-8px', display: 'block' }}>
-                Core features are free. Add-ons are priced per active employee.
+                Transparent per-employee monthly billing. Add-ons are priced per active employee.
               </span>
 
               {/* Package tier selector */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <span style={{ fontSize: '0.85rem', fontWeight: '600', color: '#ffffff', display: 'block' }}>
-                  Select Add-on Modules:
+                  Core Seats & Add-on Modules:
                 </span>
 
                 <div
                   className="module-checkbox-label disabled"
-                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'rgba(255,255,255,0.02)', border: '1px dashed var(--border)', borderRadius: 'var(--radius-sm)', opacity: 0.7, fontSize: '0.85rem' }}
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'rgba(255,255,255,0.02)', border: '1px dashed var(--border)', borderRadius: 'var(--radius-sm)', opacity: 0.85, fontSize: '0.85rem' }}
                 >
                   <div className="module-checkbox-left" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div className="switch-toggle checked disabled" style={{ pointerEvents: 'none' }}>
                       <div className="switch-handle" />
                     </div>
-                    <span>Free Core Modules (Dashboard, Employees, Logs)</span>
+                    <span>Core Platform (Dashboard, Employees, Logs)</span>
                   </div>
-                  <span className="module-cost" style={{ color: 'var(--text-muted)' }}>Free Bundle</span>
+                  <span className="module-cost" style={{ color: 'var(--secondary)' }}>₹{coreSeatPrice}/emp</span>
                 </div>
 
                 {availablePackages.length === 0 ? (
