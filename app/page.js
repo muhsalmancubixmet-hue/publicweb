@@ -215,8 +215,17 @@ export default function Home() {
   const [testimonialSubmitting, setTestimonialSubmitting] = useState(false);
   const [testimonialSuccess, setTestimonialSuccess] = useState(false);
   const [testimonialError, setTestimonialError] = useState('');
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://salmankwork.pythonanywhere.com';
-  const DASHBOARD_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://cubelogs-dashboard.vercel.app';
+  let API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://salmankwork.pythonanywhere.com';
+  let DASHBOARD_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://cubelogs-dashboard.vercel.app';
+
+  if (typeof window !== 'undefined') {
+    const hn = window.location.hostname;
+    const isLocalOrLan = hn === 'localhost' || hn === '127.0.0.1' || hn.startsWith('192.168.') || hn.startsWith('10.') || hn.startsWith('172.');
+    if (isLocalOrLan) {
+      API_URL = '';
+      DASHBOARD_URL = `${window.location.protocol}//${hn}:3000`;
+    }
+  }
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
 
   useEffect(() => {
@@ -465,6 +474,15 @@ export default function Home() {
 
     const cleanEmail = formData.email.trim();
     const cleanPhone = formData.phone.trim();
+    const cleanName = formData.name ? formData.name.trim() : '';
+    const cleanCompany = formData.companyName ? formData.companyName.trim() : '';
+
+    const emailPrefix = cleanEmail ? cleanEmail.split('@')[0] : 'Prospect';
+    const computedName = cleanName || (emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1));
+
+    const emailDomain = cleanEmail ? cleanEmail.split('@')[1] : '';
+    const displayCompany = emailDomain ? emailDomain.split('.')[0] : 'Company';
+    const computedCompany = cleanCompany || (displayCompany.charAt(0).toUpperCase() + displayCompany.slice(1));
 
     let payload = {};
     if (modalMode === 'register') {
@@ -474,8 +492,6 @@ export default function Home() {
         message: formData.message || 'No additional message'
       };
     } else {
-      const cleanName = formData.name ? formData.name.trim() : '';
-      const cleanCompany = formData.companyName ? formData.companyName.trim() : '';
       payload = {
         name: cleanName,
         email: cleanEmail,
@@ -522,7 +538,7 @@ export default function Home() {
         setSubmitError(errorMsg || 'Failed to submit form. Please check your inputs and try again.');
       }
     } catch (err) {
-      setSubmitError(`Connection to server failed. Make sure the backend service is running on ${API_URL}.`);
+      setSubmitError(`Connection to server failed. Make sure the backend service is running on ${API_URL || 'port 8000'}.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -580,7 +596,7 @@ export default function Home() {
         setTestimonialError(errData.detail || 'Failed to submit testimonial.');
       }
     } catch (err) {
-      setTestimonialError(`Connection to server failed. Make sure the backend service is running on ${API_URL}.`);
+      setTestimonialError(`Connection to server failed. Make sure the backend service is running on ${API_URL || 'port 8000'}.`);
     } finally {
       setTestimonialSubmitting(false);
     }

@@ -2,6 +2,7 @@
 const dashboardUrl = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://cubelogs-dashboard.vercel.app';
 
 const nextConfig = {
+  skipTrailingSlashRedirect: true,
   async redirects() {
     return [
       {
@@ -33,6 +34,22 @@ const nextConfig = {
         source: '/admin/:path*',
         destination: `${dashboardUrl}/admin/:path*`,
         permanent: false,
+      },
+    ];
+  },
+  async rewrites() {
+    let rawApi = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000').trim().replace(/\/+$/, '');
+    if (rawApi === 'http://localhost:8000') {
+      rawApi = 'http://127.0.0.1:8000';
+    }
+    return [
+      {
+        source: '/api/:path*/',
+        destination: `${rawApi}/api/:path*/`,
+      },
+      {
+        source: '/api/:path*',
+        destination: `${rawApi}/api/:path*`,
       },
     ];
   },
